@@ -5,4 +5,5 @@
 ### Для получения информации, необходимо отправить get запрос по пути /anime/search и указать название аниме в параметр animeName
 #### Пример: <b>localhost:8080/anime/search?animeName=frieren<b>
 #### Ответ: 
-![ответ] (https://github.com/ryhail/spring-boot/blob/master/getAnimeInfo.jpg)
+![image] (https://github.com/ryhail/spring-boot/blob/master/getAnimeInfo.jpg)
+    
