@@ -5,7 +5,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 public class MyAnimeList {
     final WebClient webClient;
-    final String ClientId = "cd67965f59dfef54502c9a367908c83d";
+    static final String clientId = "cd67965f59dfef54502c9a367908c83d";
     public MyAnimeList() {
         this.webClient = WebClient
                 .builder()
@@ -21,7 +21,7 @@ public class MyAnimeList {
                         .queryParam("limit", 1)
                         .build()
                 )
-                .header("X-MAL-CLIENT-ID", ClientId)
+                .header("X-MAL-CLIENT-ID", clientId)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();
@@ -49,7 +49,7 @@ public class MyAnimeList {
                         .queryParam("fields",fields)
                         .build()
                 )
-                .header("X-MAL-CLIENT-ID", ClientId)
+                .header("X-MAL-CLIENT-ID", clientId)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();
