@@ -1,35 +1,19 @@
 package com.pnayavu.lab1.controllers;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pnayavu.lab1.model.Anime;
+import com.pnayavu.lab1.service.MyAnimeList;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-
 
 @RestController
 @RequestMapping("/anime")
 public class AnimeCotroller {
-
-    @GetMapping("/frieren")
-    public String sendFrieren() {
-
-        Anime frieren = new Anime();
-        frieren.setName("Frieren: Beyond Journey's End");
-        frieren.setKind("tv");
-        frieren.setStatus("ongoing");
-        frieren.setAired(LocalDate.of(2023,9,29));
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-
-        try {
-            return objectMapper.writeValueAsString(frieren);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return "JSON conversion failed";
+    @GetMapping(value="/search", produces = "application/json")
+    public String searchAnime(@RequestParam String animeName) {
+        MyAnimeList session = new MyAnimeList();
+        int animeId = session.getAnimeId(animeName);
+        if(animeId == -1) {
+            return "failed retrieving anime title by id";
+        } else {
+            return session.getAnimeInfo(animeId).toPrettyString();
         }
     }
 }
