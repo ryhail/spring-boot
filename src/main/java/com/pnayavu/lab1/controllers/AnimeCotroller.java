@@ -1,5 +1,5 @@
 package com.pnayavu.lab1.controllers;
-import com.pnayavu.lab1.model.Anime;
+
 import com.pnayavu.lab1.service.MyAnimeList;
 import org.springframework.web.bind.annotation.*;
 
