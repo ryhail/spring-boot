@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/anime")
-public class AnimeCotroller {
+public class AnimeController {
     @GetMapping(value="/search", produces = "application/json")
     public String searchAnime(@RequestParam String animeName) {
         MyAnimeList session = new MyAnimeList();
