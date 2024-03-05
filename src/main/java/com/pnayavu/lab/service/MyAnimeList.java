@@ -1,19 +1,22 @@
-package com.pnayavu.lab1.service;
+package com.pnayavu.lab.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.boot.autoconfigure.security.oauth2.server.servlet.OAuth2AuthorizationServerProperties.*;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class MyAnimeList {
     final WebClient webClient;
-    static final String CLIENT_ID = "cd67965f59dfef54502c9a367908c83d";
+    Client client;
     public MyAnimeList() {
         this.webClient = WebClient
                 .builder()
                 .baseUrl("https://api.myanimelist.net/v2/")
                 .build();
+        client = new Client();
     }
 
     public int getAnimeId(String animeName) {
+
         JsonNode response =  webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("anime")
@@ -21,7 +24,7 @@ public class MyAnimeList {
                         .queryParam("limit", 1)
                         .build()
                 )
-                .header("X-MAL-CLIENT-ID", CLIENT_ID)
+                .header("X-MAL-CLIENT-ID", client.getRegistration().getClientId())
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();
@@ -49,7 +52,7 @@ public class MyAnimeList {
                         .queryParam("fields",fields)
                         .build()
                 )
-                .header("X-MAL-CLIENT-ID", CLIENT_ID)
+                .header("X-MAL-CLIENT-ID", client.getRegistration().getClientId())
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();

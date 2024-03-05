@@ -1,6 +1,6 @@
-package com.pnayavu.lab1.controllers;
+package com.pnayavu.lab.controllers;
 
-import com.pnayavu.lab1.service.MyAnimeList;
+import com.pnayavu.lab.service.MyAnimeList;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
