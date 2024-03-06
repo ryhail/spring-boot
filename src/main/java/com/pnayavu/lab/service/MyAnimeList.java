@@ -1,22 +1,26 @@
 package com.pnayavu.lab.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.boot.autoconfigure.security.oauth2.server.servlet.OAuth2AuthorizationServerProperties.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties.*;
+import org.springframework.core.env.Environment;
 import org.springframework.web.reactive.function.client.WebClient;
+
+
 
 public class MyAnimeList {
     final WebClient webClient;
-    Client client;
+    @Value("${client-id}")
+    private String CLIENT_ID;
     public MyAnimeList() {
         this.webClient = WebClient
                 .builder()
                 .baseUrl("https://api.myanimelist.net/v2/")
                 .build();
-        client = new Client();
     }
 
     public int getAnimeId(String animeName) {
-
         JsonNode response =  webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("anime")
@@ -24,7 +28,7 @@ public class MyAnimeList {
                         .queryParam("limit", 1)
                         .build()
                 )
-                .header("X-MAL-CLIENT-ID", client.getRegistration().getClientId())
+                .header("X-MAL-CLIENT-ID", CLIENT_ID)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();
@@ -52,7 +56,7 @@ public class MyAnimeList {
                         .queryParam("fields",fields)
                         .build()
                 )
-                .header("X-MAL-CLIENT-ID", client.getRegistration().getClientId())
+                .header("X-MAL-CLIENT-ID", CLIENT_ID)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();
