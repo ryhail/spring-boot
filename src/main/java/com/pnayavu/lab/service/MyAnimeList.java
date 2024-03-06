@@ -1,11 +1,18 @@
-package com.pnayavu.lab1.service;
+package com.pnayavu.lab.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties.*;
+import org.springframework.core.env.Environment;
 import org.springframework.web.reactive.function.client.WebClient;
+
+
 
 public class MyAnimeList {
     final WebClient webClient;
-    static final String CLIENT_ID = "cd67965f59dfef54502c9a367908c83d";
+    @Value("${client-id}")
+    private String CLIENT_ID;
     public MyAnimeList() {
         this.webClient = WebClient
                 .builder()

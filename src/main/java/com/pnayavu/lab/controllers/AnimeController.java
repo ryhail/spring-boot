@@ -1,11 +1,11 @@
-package com.pnayavu.lab1.controllers;
+package com.pnayavu.lab.controllers;
 
-import com.pnayavu.lab1.service.MyAnimeList;
+import com.pnayavu.lab.service.MyAnimeList;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/anime")
-public class AnimeCotroller {
+public class AnimeController {
     @GetMapping(value="/search", produces = "application/json")
     public String searchAnime(@RequestParam String animeName) {
         MyAnimeList session = new MyAnimeList();
