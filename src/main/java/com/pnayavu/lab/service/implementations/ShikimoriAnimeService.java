@@ -1,7 +1,6 @@
 package com.pnayavu.lab.service.implementations;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 @Service

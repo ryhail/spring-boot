@@ -3,16 +3,17 @@ package com.pnayavu.lab.service.implementations;
 import com.pnayavu.lab.entity.Anime;
 import com.pnayavu.lab.repository.AnimeRepository;
 import com.pnayavu.lab.service.AnimeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class AnimeServiceImpl implements AnimeService {
 
-    @Autowired
-    AnimeRepository animeRepository;
 
+    private final AnimeRepository animeRepository;
+    public AnimeServiceImpl(AnimeRepository animeRepository) {
+        this.animeRepository = animeRepository;
+    }
     @Override
     public List<Anime> findAllAnime() {
 

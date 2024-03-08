@@ -1,33 +1,24 @@
 package com.pnayavu.lab.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pnayavu.lab.entity.Anime;
 import com.pnayavu.lab.service.AnimeService;
-import com.pnayavu.lab.service.implementations.ShikimoriAnimeService;
-import com.pnayavu.lab.service.implementations.ShikimoriUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/anime")
 public class AnimeController {
-    @Autowired
-    private AnimeService animeService;
-    @Autowired
-    private ShikimoriAnimeService shikimoriAnimeService;
-    @Autowired
-    ObjectMapper objectMapper;
+    private final AnimeService animeService;
+    //private final ShikimoriAnimeService shikimoriAnimeService;
+    AnimeController(AnimeService animeService) {
+        this.animeService = animeService;
+        //this.shikimoriAnimeService = shikimoriAnimeService;
+    }
     @GetMapping(value = "",produces = "application/json")
-    public List<Anime> getAnime(@RequestParam(required = false) Integer limit) {
+    public List<Anime> getAnime() {
         List<Anime> listAnime = animeService.findAllAnime();
         if(listAnime == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"no anime found");
@@ -46,7 +37,7 @@ public class AnimeController {
 //        }
 //        return "posted succesfully anime " + animeNode.findValue("name");
 //    }
-    @ResponseBody
+
     @GetMapping(value = "/{animeId}",produces = "application/json")
     public Anime getAnime(@PathVariable Long animeId) {
         Anime anime = animeService.findAnime(animeId);
@@ -63,6 +54,15 @@ public class AnimeController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"anime not saved");
         return "saved successfully";
     }
+    @PatchMapping(value = "/update")
+    public Anime updateAnime(@RequestBody Anime anime) {
+        Anime newAnime = animeService.saveAnime(anime);
+        if(newAnime == null)
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"cannot update");
+        return newAnime;
+    }
+
+
     @DeleteMapping(value = "/{animeid}")
     public String deleteAnime(@PathVariable Long animeid){
         animeService.deleteAnime(animeid);

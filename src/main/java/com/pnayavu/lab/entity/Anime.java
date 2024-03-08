@@ -2,6 +2,7 @@ package com.pnayavu.lab.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -29,19 +30,7 @@ public class Anime {
     @JsonProperty("description")
     private String description;
 
-
     public Anime(){
 
     }
-    public Anime(Long id, String name, String russian, String kind, String description, int episodes, LocalDate airedOn, String status) {
-        this.id = id;
-        this.name = name;
-        this.russian = russian;
-        this.kind = kind;
-        this.description = description;
-        this.episodes = episodes;
-        this.airedOn = airedOn;
-        this.status = status;
-    }
-
 }
