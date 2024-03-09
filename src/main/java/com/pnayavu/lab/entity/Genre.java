@@ -2,9 +2,11 @@ package com.pnayavu.lab.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
-import java.util.HashSet;
 import java.util.Set;
 @Entity
 @Table(name = "genres")

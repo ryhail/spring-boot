@@ -2,7 +2,6 @@ package com.pnayavu.lab.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pnayavu.lab.entity.Genre;
-import com.pnayavu.lab.repository.GenreRepository;
 import com.pnayavu.lab.service.GenreService;
 import com.pnayavu.lab.service.implementations.ShikimoriGenreService;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pnayavu.lab.entity.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ public class ShikimoriGenreService {
                 try {
                     object = objectMapper.treeToValue(element, Genre.class);
                 } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
                 genreList.add(object);
             }

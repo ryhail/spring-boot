@@ -41,7 +41,7 @@ public class AnimeController {
                 try {
                     listAnime.add(objectMapper.readValue(anime.toPrettyString(), Anime.class));
                 } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"error processing JSON");
                 }
             }
         }

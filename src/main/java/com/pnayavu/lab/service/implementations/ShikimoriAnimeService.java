@@ -27,10 +27,8 @@ public class ShikimoriAnimeService {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();
-        if (response != null) {
-            if (!response.isEmpty()) {
-                return response.findValue("id").asInt();
-            }
+        if (response != null && !response.isEmpty()) {
+            return response.findValue("id").asInt();
         }
         return -1;
     }
