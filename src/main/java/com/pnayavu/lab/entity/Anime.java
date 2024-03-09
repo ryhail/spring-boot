@@ -1,16 +1,19 @@
 package com.pnayavu.lab.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "animes")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Anime {
     @JsonProperty("id")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JsonProperty("name")
     private String name;
@@ -29,8 +32,20 @@ public class Anime {
     private LocalDate airedOn;
     @JsonProperty("description")
     private String description;
+    @JsonProperty("poster")
+    private String poster;
+    @ManyToMany (cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JsonProperty("genres")
+    @JoinTable(name = "anime_genre",
+            joinColumns = @JoinColumn(name = "anime_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private Set<Genre> genres;
 
-    public Anime(){
-
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 }

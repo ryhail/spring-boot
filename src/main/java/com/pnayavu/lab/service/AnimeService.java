@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface AnimeService {
     List<Anime> findAllAnime();
+    List<Anime> findAllAnimeByName(String name);
+    List<Anime> findAllAnimeByRussian(String russian);
     Anime saveAnime(Anime anime);
     Anime findAnime(Long id);
     Anime updateAnime(Anime anime);
-    void deleteAnime(Long Id);
+    void deleteAnime(Long id);
 }
