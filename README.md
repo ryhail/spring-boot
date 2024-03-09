@@ -1,12 +1,21 @@
 # REST application
 ## Приложение использует Shikimori API Для получения информации об аниме
 **[Shikimori API](https://shikimori.one/api/doc/1.0)**<br>
-# Инструкция
-### get запрос по uri /anime - все аниме в базе данных
-### get запрос по uri /anime/{id} - получение информации об аниме с определённым id
-### post запрос по uri /anime/add - добавление нового аниме в базу данных
-### patch запрос по uri /anime/update - обновление информации о конкретном аниме
-### delete запрос по uri /anime/{id} - удаление аниме по id
+## Sringboot + JPA + Hibernate
+## DB - PostgreSQL
+
+# Doc
+## /ANIME
+### GET /anime - все аниме в базе данных
+### GET /anime/{id} - получение информации об аниме с определённым id
+### POST /anime/add - добавление нового аниме в базу данных
+### PATCH /anime/update - обновление информации о конкретном аниме
+### DELETE /anime/{id} - удаление аниме по id
+### GET /anime?search - поиск аниме по названию, русское/английское по внутренней базе и в случае отсуствия по Shikimori
+### GET /anime/shikimori?animeName - сохранение в базу аниме по названию с Shikimori
+
+## /GENRE
+### GET /genre - получить все жанры 
 
 
 
