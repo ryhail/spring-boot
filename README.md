@@ -1,9 +1,13 @@
 # REST application
-## Приложение использует MyAnimeList API Для получения информации об аниме, запрашиваемом пользователем
-**[MyAnimeList API](https://myanimelist.net/apiconfig/references/api/v2)**<br>
+## Приложение использует Shikimori API Для получения информации об аниме
+**[Shikimori API](https://shikimori.one/api/doc/1.0)**<br>
 # Инструкция
-### Для получения информации, необходимо отправить get запрос по пути /anime/search и указать название аниме в параметр animeName
-#### Пример: <b>localhost:8080/anime/search?animeName=frieren<b>
-#### Ответ: 
-![image](https://github.com/ryhail/spring-boot/blob/master/getAnimeInfo.jpg)
+### get запрос по uri /anime - все аниме в базе данных
+### get запрос по uri /anime/{id} - получение информации об аниме с определённым id
+### post запрос по uri /anime/add - добавление нового аниме в базу данных
+### patch запрос по uri /anime/update - обновление информации о конкретном аниме
+### delete запрос по uri /anime/{id} - удаление аниме по id
+
+
+
     
