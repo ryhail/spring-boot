@@ -77,14 +77,15 @@ public class AnimeController {
         return anime;
     }
 
-    @PostMapping(value = "/add")
+    @PostMapping(value = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public String addAnime(@RequestBody Anime anime) {
-        if(animeService.saveAnime(anime) == null)
+    public Anime addAnime(@RequestBody Anime anime) {
+        Anime savedAnime = animeService.saveAnime(anime);
+        if(savedAnime == null)
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"anime not saved");
-        return "saved successfully";
+        return savedAnime;
     }
-    @PatchMapping(value = "/update")
+    @PatchMapping(value = "")
     public Anime updateAnime(@RequestBody Anime anime) {
         Anime newAnime = animeService.updateAnime(anime);
         if(newAnime == null)
