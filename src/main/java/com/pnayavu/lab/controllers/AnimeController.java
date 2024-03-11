@@ -49,7 +49,7 @@ public class AnimeController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no anime found");
         return listAnime;
     }
-    @GetMapping(value = "/shikimori")
+    @GetMapping(value = "/shikimori", produces = "application/json")
     public String addAnimeFromShikimori(@RequestParam String animeName) {
         int animeId = shikimoriAnimeService.searchAnime(animeName);
         JsonNode animeNode = shikimoriAnimeService.getAnimeInfo(animeId);
@@ -93,7 +93,7 @@ public class AnimeController {
         return newAnime;
     }
 
-    @DeleteMapping(value = "/{animeId}")
+    @DeleteMapping(value = "/{animeId}", produces = "application/json")
     public String deleteAnime(@PathVariable Long animeId){
         if(animeService.findAnime(animeId) == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
