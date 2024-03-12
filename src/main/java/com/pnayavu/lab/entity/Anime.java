@@ -45,6 +45,11 @@ public class Anime {
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private Set<Genre> genres;
+    @JsonProperty("studio")
+    @ManyToOne
+    @JoinColumn(name = "studio_id", nullable = false)
+    private Studio studio;
+
 
     public void setPoster(String poster) {
         this.poster = poster;
