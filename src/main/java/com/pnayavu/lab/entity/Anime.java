@@ -2,6 +2,7 @@ package com.pnayavu.lab.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -37,7 +38,8 @@ public class Anime {
     private String poster;
     @ManyToMany (cascade = {
             CascadeType.PERSIST,
-            CascadeType.MERGE
+            CascadeType.MERGE,
+            CascadeType.REFRESH
     })
     @JsonProperty("genres")
     @JoinTable(name = "anime_genre",
@@ -46,11 +48,9 @@ public class Anime {
     )
     private Set<Genre> genres;
     @JsonProperty("studio")
-    @ManyToOne
-    @JoinColumn(name = "studio_id", nullable = false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="studio_id", nullable=false)
     private Studio studio;
-
-
     public void setPoster(String poster) {
         this.poster = poster;
     }
