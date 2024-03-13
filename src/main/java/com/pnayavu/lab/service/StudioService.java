@@ -2,10 +2,7 @@ package com.pnayavu.lab.service;
 
 
 import com.pnayavu.lab.entity.Studio;
-import jakarta.transaction.Transactional;
 
-
-import java.beans.Transient;
 import java.util.List;
 
 public interface StudioService {
