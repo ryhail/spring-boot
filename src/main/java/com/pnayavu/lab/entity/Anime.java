@@ -36,8 +36,8 @@ public class Anime {
     private LocalDate airedOn;
     @JsonProperty("description")
     private String description;
-    @JsonProperty("poster")
-    private String poster;
+    @JsonProperty("image")
+    private String image;
     @ManyToMany (cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
@@ -64,7 +64,7 @@ public class Anime {
     }
 
     @JsonSetter("image")
-    public void setPoster(ObjectNode image) {
-        this.poster = "https://shikimori.one" + image.get("original").asText();
+    public void setImage(ObjectNode image) {
+        this.image = "https://shikimori.one" + image.get("original").asText();
     }
 }
