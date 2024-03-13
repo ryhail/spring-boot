@@ -58,8 +58,6 @@ public class AnimeController {
         } else {
             try {
                 Anime anime = objectMapper.readValue(animeNode.toPrettyString(), Anime.class);
-                anime.setPoster("https://shikimori.one" + animeNode.findValue("original")
-                        .toString().replace("\"",""));
                 animeService.saveAnime(anime);
             } catch (JsonProcessingException e) {
                 return "error processing anime";

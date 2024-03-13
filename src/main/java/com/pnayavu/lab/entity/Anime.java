@@ -1,8 +1,11 @@
 package com.pnayavu.lab.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -46,11 +49,22 @@ public class Anime {
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private Set<Genre> genres;
-    @JsonProperty("studios")
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="studio_id", nullable=false)
     private Studio studio;
-    public void setPoster(String poster) {
-        this.poster = poster;
+
+
+    @JsonSetter("studios")
+    public void setStudio(Studio[] studios) {
+        this.studio = studios[0];
+    }
+    @JsonGetter("studio")
+    public Studio getStudio() {
+        return this.studio;
+    }
+
+    @JsonSetter("image")
+    public void setPoster(ObjectNode image) {
+        this.poster = "https://shikimori.one" + image.get("original").asText();
     }
 }
