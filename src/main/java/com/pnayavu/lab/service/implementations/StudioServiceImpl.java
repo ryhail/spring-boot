@@ -6,6 +6,8 @@ import com.pnayavu.lab.service.StudioService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class StudioServiceImpl implements StudioService {
 
@@ -20,7 +22,8 @@ public class StudioServiceImpl implements StudioService {
 
     @Override
     public Studio getStudioById(Long id) {
-        return studioRepository.getReferenceById(id);
+        Optional<Studio> studio = studioRepository.findById(id);
+        return studio.orElse(null);
     }
 
     @Override

@@ -2,9 +2,12 @@ package com.pnayavu.lab.controllers;
 
 import com.pnayavu.lab.entity.Studio;
 import com.pnayavu.lab.service.StudioService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/studio")
@@ -13,9 +16,13 @@ public class StudioController {
     public StudioController(StudioService studioService) {
         this.studioService = studioService;
     }
-    @GetMapping("/{studioId}")
+    @GetMapping(value = "/{studioId}", produces = "application/json")
     public Studio getStudioById(@PathVariable Long studioId) {
-       return studioService.getStudioById(studioId);
+        try {
+            return studioService.getStudioById(studioId);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No studio found");
+        }
     }
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,6 +40,10 @@ public class StudioController {
         if(getStudioById(studioId) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        studioService.deleteStudioById(studioId);
+        try {
+            studioService.deleteStudioById(studioId);
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot delete because has reference");
+        }
     }
 }

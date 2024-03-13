@@ -46,7 +46,7 @@ public class Anime {
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private Set<Genre> genres;
-    @JsonProperty("studio")
+    @JsonProperty("studios")
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="studio_id", nullable=false)
     private Studio studio;
