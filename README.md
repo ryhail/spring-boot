@@ -4,6 +4,7 @@
 ## Sringboot + JPA + Hibernate
 ## DB - PostgreSQL
 # anime <-> genre many to many
+# anime <-> studio many to one, bidirectional
 # Doc
 ## /ANIME
 ### GET /anime - все аниме в базе данных
