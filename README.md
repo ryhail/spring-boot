@@ -25,8 +25,8 @@
 
 ## /STUDIO
 ### GET /genre/{id} - получить студию по id
-### POST /studio - добавить жанр
-### PUT /studio - обновить жанр
-### DELETE /studio/{id} - удалить жанр по id
+### POST /studio - добавить сутдию
+### PUT /studio - обновить студию
+### DELETE /studio/{id} - удалить студию по id
 
     
