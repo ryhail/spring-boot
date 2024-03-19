@@ -30,7 +30,7 @@ public class StudioController {
         return studioService.createStudio(studio);
     }
 
-    @PatchMapping("")
+    @PutMapping("")
     public Studio updateStudio(@RequestBody Studio studio) {
         return studioService.updateStudio(studio);
     }

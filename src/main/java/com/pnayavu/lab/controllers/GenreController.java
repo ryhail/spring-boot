@@ -51,7 +51,7 @@ public class GenreController {
         return newGenre;
     }
 
-    @PatchMapping(value = "")
+    @PutMapping(value = "")
     public Genre updateGenre(@RequestBody Genre genre) {
         if(genre == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No genre provided");

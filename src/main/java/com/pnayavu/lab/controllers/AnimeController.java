@@ -83,7 +83,7 @@ public class AnimeController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"anime not saved");
         return savedAnime;
     }
-    @PatchMapping(value = "")
+    @PutMapping(value = "")
     public Anime updateAnime(@RequestBody Anime anime) {
         Anime newAnime = animeService.updateAnime(anime);
         if(newAnime == null)
