@@ -49,6 +49,9 @@ public class AnimeController {
         if(anime == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "anime not found");
         } else {
+            anime = animeService.saveAnime(anime);
+            if(anime == null)
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "anime not saved");
             return "added successfully anime " + anime.getName();
         }
     }
