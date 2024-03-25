@@ -17,6 +17,7 @@ public class StudioServiceImpl implements StudioService {
 
     private final StudioRepository studioRepository;
     private final InMemoryMap inMemoryMap;
+    private final static String STUDIO_ID_KEY = "STUDIO ID ";
     public StudioServiceImpl(StudioRepository studioRepository, InMemoryMap inMemoryMap) {
         this.studioRepository = studioRepository;
         this.inMemoryMap = inMemoryMap;
@@ -28,7 +29,7 @@ public class StudioServiceImpl implements StudioService {
 
     @Override
     public Studio getStudioById(Long id) {
-        String key = "STUDIO ID " + id;
+        String key = STUDIO_ID_KEY + id;
         Studio cachedResult = (Studio) inMemoryMap.get(key);
         if(cachedResult != null)
             return cachedResult;
@@ -43,7 +44,7 @@ public class StudioServiceImpl implements StudioService {
     }
     @Override
     public Studio updateStudio(Studio studio) {
-        String key = "STUDIO ID " + studio.getId();
+        String key = STUDIO_ID_KEY + studio.getId();
         if(inMemoryMap.containsKey(key)) {
             inMemoryMap.remove(key);
             inMemoryMap.put(key, studio);
@@ -53,7 +54,7 @@ public class StudioServiceImpl implements StudioService {
 
     @Override
     public void deleteStudioById(Long id) {
-        String key = "STUDIO ID " + id;
+        String key = STUDIO_ID_KEY + id;
         if(inMemoryMap.containsKey(key)) {
             inMemoryMap.remove(key);
         }

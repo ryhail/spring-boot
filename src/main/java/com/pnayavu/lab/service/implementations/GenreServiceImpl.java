@@ -4,6 +4,7 @@ import com.pnayavu.lab.cache.InMemoryMap;
 import com.pnayavu.lab.entity.Genre;
 import com.pnayavu.lab.repository.GenreRepository;
 import com.pnayavu.lab.service.GenreService;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
     private final InMemoryMap inMemoryMap;
+    private final static String GENRE_ID_KEY = "GENRE ID ";
     public GenreServiceImpl (GenreRepository genreRepository,
                              InMemoryMap inMemoryMap) {
         this.genreRepository = genreRepository;
@@ -29,7 +31,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre findGenre(Long id) {
-        String key = "GENRE ID " + id;
+        String key = GENRE_ID_KEY + id;
         Genre cachedResult = (Genre) inMemoryMap.get(key);
         if(cachedResult != null)
             return cachedResult;
@@ -40,7 +42,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre updateGenre(Genre genre) {
-        String key = "GENRE ID " + genre.getId();
+        String key = GENRE_ID_KEY + genre.getId();
         if(inMemoryMap.containsKey(key)) {
             inMemoryMap.remove(key);
             inMemoryMap.put(key, genre);
@@ -53,7 +55,7 @@ public class GenreServiceImpl implements GenreService {
     }
     @Override
     public void deleteGenre(Long id) {
-        String key = "GENRE ID " + id;
+        String key = GENRE_ID_KEY + id;
         if(inMemoryMap.containsKey(key)) {
             inMemoryMap.remove(key);
         }

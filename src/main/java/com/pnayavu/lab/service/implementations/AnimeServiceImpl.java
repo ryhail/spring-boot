@@ -11,6 +11,7 @@ import java.util.List;
 public class AnimeServiceImpl implements AnimeService {
     private final AnimeRepository animeRepository;
     private final InMemoryMap inMemoryMap;
+    private final static String ANIME_ID_KEY = "ANIME ID ";
     public AnimeServiceImpl(AnimeRepository animeRepository,
                             InMemoryMap inMemoryMap) {
         this.animeRepository = animeRepository;
@@ -41,7 +42,7 @@ public class AnimeServiceImpl implements AnimeService {
 
     @Override
     public Anime findAnime(Long id) {
-        String key = "ANIME ID " + id;
+        String key = ANIME_ID_KEY + id;
         Anime cachedResult = (Anime) inMemoryMap.get(key);
         if(cachedResult != null) {
             return cachedResult;
@@ -53,7 +54,7 @@ public class AnimeServiceImpl implements AnimeService {
 
     @Override
     public Anime updateAnime(Anime anime) {
-        String key = "ANIME ID " + anime.getId();
+        String key = ANIME_ID_KEY + anime.getId();
         if(inMemoryMap.containsKey(key)) {
             inMemoryMap.remove(key);
             inMemoryMap.put(key, anime);
@@ -63,7 +64,7 @@ public class AnimeServiceImpl implements AnimeService {
 
     @Override
     public void deleteAnime(Long id) {
-        String key = "ANIME ID " + id;
+        String key = ANIME_ID_KEY + id;
         animeRepository.deleteAnimeById(id);
         if(inMemoryMap.containsKey(key))
             inMemoryMap.remove(key);

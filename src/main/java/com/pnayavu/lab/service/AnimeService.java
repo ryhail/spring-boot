@@ -1,7 +1,6 @@
 package com.pnayavu.lab.service;
 
 import com.pnayavu.lab.entity.Anime;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
