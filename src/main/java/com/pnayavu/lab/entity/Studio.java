@@ -2,10 +2,9 @@ package com.pnayavu.lab.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.node.TextNode;
+import jakarta.persistence.*;
 
 import java.util.Set;
 
@@ -24,5 +23,8 @@ public class Studio {
     private String image;
     @OneToMany(mappedBy="studio")
     private Set<Anime> animes;
-
+    @JsonSetter("image")
+    void setStudioImageJson(TextNode image) {
+        this.image = "https://shikimori.one"+image.asText();
+    }
 }

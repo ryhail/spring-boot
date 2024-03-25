@@ -3,6 +3,8 @@ package com.pnayavu.lab.service.implementations;
 import com.pnayavu.lab.entity.Anime;
 import com.pnayavu.lab.repository.AnimeRepository;
 import com.pnayavu.lab.service.AnimeService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,14 +18,17 @@ public class AnimeServiceImpl implements AnimeService {
     public List<Anime> findAllAnime() {
         return animeRepository.findAll();
     }
+
     @Override
-    public List<Anime> findAllAnimeByName(String name) {
-        return animeRepository.searchAllByNameContaining(name);
+    public Page<Anime> findAllWithPagination(int size, int num) {
+        PageRequest pageRequest = PageRequest.of(num, size);
+        return animeRepository.findAllWithPagination(pageRequest);
     }
 
     @Override
-    public List<Anime> findAllAnimeByRussian(String russian) {
-        return animeRepository.searchAllByRussianContaining(russian);
+    public List<Anime> searchAnime(String name) {
+        name = '%' + name + '%';
+        return animeRepository.searchAnimeByName(name);
     }
 
     @Override

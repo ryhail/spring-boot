@@ -31,9 +31,7 @@ public class AnimeController {
         if(search == null) {
             listAnime = animeService.findAllAnime();
         } else {
-            listAnime = animeService.findAllAnimeByName(search);
-            if(listAnime.isEmpty())
-                listAnime = animeService.findAllAnimeByRussian(search);
+            listAnime = animeService.searchAnime(search);
             if(listAnime.isEmpty()) {
                 JsonNode anime = shikimoriAnimeService.getAnimeInfo(
                         shikimoriAnimeService.searchAnime(search)

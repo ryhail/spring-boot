@@ -1,10 +1,7 @@
 package com.pnayavu.lab.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.persistence.*;
 
@@ -40,8 +37,7 @@ public class Anime {
     private String image;
     @ManyToMany (cascade = {
             CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REFRESH
+            CascadeType.MERGE
     })
     @JsonProperty("genres")
     @JoinTable(name = "anime_genre",
@@ -52,10 +48,8 @@ public class Anime {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="studio_id", nullable=false)
     private Studio studio;
-
-
     @JsonSetter("studios")
-    public void setStudio(Studio[] studios) {
+    public void setStudioFromArray(Studio[] studios) {
         this.studio = studios[0];
     }
     @JsonGetter("studio")
