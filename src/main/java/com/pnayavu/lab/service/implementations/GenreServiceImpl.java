@@ -13,7 +13,7 @@ import java.util.List;
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
     private final InMemoryMap inMemoryMap;
-    private final static String GENRE_ID_KEY = "GENRE ID ";
+    private static final String GENRE_ID_KEY = "GENRE ID ";
     public GenreServiceImpl (GenreRepository genreRepository,
                              InMemoryMap inMemoryMap) {
         this.genreRepository = genreRepository;

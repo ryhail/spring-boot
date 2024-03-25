@@ -11,7 +11,7 @@ import java.util.List;
 public class AnimeServiceImpl implements AnimeService {
     private final AnimeRepository animeRepository;
     private final InMemoryMap inMemoryMap;
-    private final static String ANIME_ID_KEY = "ANIME ID ";
+    private static final String ANIME_ID_KEY = "ANIME ID ";
     public AnimeServiceImpl(AnimeRepository animeRepository,
                             InMemoryMap inMemoryMap) {
         this.animeRepository = animeRepository;

@@ -17,7 +17,7 @@ public class StudioServiceImpl implements StudioService {
 
     private final StudioRepository studioRepository;
     private final InMemoryMap inMemoryMap;
-    private final static String STUDIO_ID_KEY = "STUDIO ID ";
+    private static final String STUDIO_ID_KEY = "STUDIO ID ";
     public StudioServiceImpl(StudioRepository studioRepository, InMemoryMap inMemoryMap) {
         this.studioRepository = studioRepository;
         this.inMemoryMap = inMemoryMap;

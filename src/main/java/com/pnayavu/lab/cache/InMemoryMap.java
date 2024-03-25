@@ -8,7 +8,7 @@ import java.util.Map;
 @Component
 public class InMemoryMap {
     private final Map<String, Object> cache;
-    private final static int INIT_CAPACITY = 16;
+    private static final int INIT_CAPACITY = 16;
     public InMemoryMap() {
         this.cache = new LinkedHashMap<>() {
             @Override
