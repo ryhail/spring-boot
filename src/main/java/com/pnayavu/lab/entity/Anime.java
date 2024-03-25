@@ -4,6 +4,9 @@ package com.pnayavu.lab.entity;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -11,6 +14,8 @@ import java.util.Set;
 @Entity
 @Table(name = "animes")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
 public class Anime {
     @JsonProperty("id")
     @Id

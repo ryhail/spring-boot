@@ -1,18 +1,20 @@
 package com.pnayavu.lab.service.implementations;
 
+import com.pnayavu.lab.cache.InMemoryMap;
 import com.pnayavu.lab.entity.Anime;
 import com.pnayavu.lab.repository.AnimeRepository;
 import com.pnayavu.lab.service.AnimeService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class AnimeServiceImpl implements AnimeService {
     private final AnimeRepository animeRepository;
-    public AnimeServiceImpl(AnimeRepository animeRepository) {
+    private final InMemoryMap inMemoryMap;
+    public AnimeServiceImpl(AnimeRepository animeRepository,
+                            InMemoryMap inMemoryMap) {
         this.animeRepository = animeRepository;
+        this.inMemoryMap = inMemoryMap;
     }
     @Override
     public List<Anime> findAllAnime() {
@@ -20,15 +22,16 @@ public class AnimeServiceImpl implements AnimeService {
     }
 
     @Override
-    public Page<Anime> findAllWithPagination(int size, int num) {
-        PageRequest pageRequest = PageRequest.of(num, size);
-        return animeRepository.findAllWithPagination(pageRequest);
-    }
-
-    @Override
     public List<Anime> searchAnime(String name) {
+        String key = "SEARCH ANIME " + name;
+        List<Anime> cachedResult = (List<Anime>) inMemoryMap.get(key);
+        if(cachedResult != null) {
+            return cachedResult;
+        }
         name = '%' + name + '%';
-        return animeRepository.searchAnimeByName(name);
+        List<Anime> result = animeRepository.searchAnimeByName(name);
+        inMemoryMap.put(key, result);
+        return result;
     }
 
     @Override
@@ -38,16 +41,31 @@ public class AnimeServiceImpl implements AnimeService {
 
     @Override
     public Anime findAnime(Long id) {
-        return animeRepository.findAnimeById(id);
+        String key = "ANIME ID " + id;
+        Anime cachedResult = (Anime) inMemoryMap.get(key);
+        if(cachedResult != null) {
+            return cachedResult;
+        }
+        Anime result = animeRepository.findAnimeById(id);
+        inMemoryMap.put(key,result);
+        return result;
     }
 
     @Override
     public Anime updateAnime(Anime anime) {
+        String key = "ANIME ID " + anime.getId();
+        if(inMemoryMap.containsKey(key)) {
+            inMemoryMap.remove(key);
+            inMemoryMap.put(key, anime);
+        }
         return animeRepository.save(anime);
     }
 
     @Override
     public void deleteAnime(Long id) {
+        String key = "ANIME ID " + id;
         animeRepository.deleteAnimeById(id);
+        if(inMemoryMap.containsKey(key))
+            inMemoryMap.remove(key);
     }
 }

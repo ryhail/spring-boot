@@ -17,13 +17,11 @@ import java.util.List;
 public class AnimeController {
     private final AnimeService animeService;
     private final ShikimoriAnimeService shikimoriAnimeService;
-    private final ObjectMapper objectMapper;
+
     AnimeController(AnimeService animeService,
-                    ShikimoriAnimeService shikimoriAnimeService,
-                    ObjectMapper objectMapper) {
+                    ShikimoriAnimeService shikimoriAnimeService) {
         this.animeService = animeService;
         this.shikimoriAnimeService = shikimoriAnimeService;
-        this.objectMapper = objectMapper;
     }
     @GetMapping(value = "",produces = "application/json")
     public List<Anime> getAnime(@RequestParam(required = false) String search) {
@@ -33,14 +31,10 @@ public class AnimeController {
         } else {
             listAnime = animeService.searchAnime(search);
             if(listAnime.isEmpty()) {
-                JsonNode anime = shikimoriAnimeService.getAnimeInfo(
+                Anime anime = shikimoriAnimeService.getAnimeInfo(
                         shikimoriAnimeService.searchAnime(search)
                 );
-                try {
-                    listAnime.add(objectMapper.readValue(anime.toPrettyString(), Anime.class));
-                } catch (JsonProcessingException e) {
-                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"error processing JSON");
-                }
+                listAnime.add(anime);
             }
         }
         if (listAnime.isEmpty())
@@ -49,18 +43,13 @@ public class AnimeController {
     }
     @GetMapping(value = "/shikimori", produces = "application/json")
     public String addAnimeFromShikimori(@RequestParam String animeName) {
-        int animeId = shikimoriAnimeService.searchAnime(animeName);
-        JsonNode animeNode = shikimoriAnimeService.getAnimeInfo(animeId);
-        if(animeNode == null) {
+        Anime anime = shikimoriAnimeService.getAnimeInfo(
+                shikimoriAnimeService.searchAnime(animeName)
+        );
+        if(anime == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "anime not found");
         } else {
-            try {
-                Anime anime = objectMapper.readValue(animeNode.toPrettyString(), Anime.class);
-                animeService.saveAnime(anime);
-            } catch (JsonProcessingException e) {
-                return "error processing anime";
-            }
-            return "added successfully anime " + animeNode.findValue("name");
+            return "added successfully anime " + anime.getName();
         }
     }
 

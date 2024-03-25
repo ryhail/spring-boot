@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface AnimeService {
     List<Anime> findAllAnime();
-    Page<Anime> findAllWithPagination(int size, int num);
     List<Anime> searchAnime(String name);
     Anime saveAnime(Anime anime);
     Anime findAnime(Long id);

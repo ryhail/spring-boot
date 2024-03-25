@@ -1,6 +1,9 @@
 package com.pnayavu.lab.service.implementations;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.pnayavu.lab.cache.InMemoryMap;
+import com.pnayavu.lab.entity.Anime;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -9,7 +12,9 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class ShikimoriAnimeService {
     private final WebClient webClient;
-    public ShikimoriAnimeService(){
+    private final InMemoryMap inMemoryMap;
+    public ShikimoriAnimeService(InMemoryMap inMemoryMap){
+        this.inMemoryMap = inMemoryMap;
         webClient = WebClient
                 .builder()
                 .baseUrl("https://shikimori.one/api/animes")
@@ -17,6 +22,11 @@ public class ShikimoriAnimeService {
     }
 
     public int searchAnime(String animeName) {
+        String key = "SHIKIMORI ID " + animeName;
+        IntNode cachedResult = (IntNode) inMemoryMap.get(key);
+        if(cachedResult != null) {
+            return cachedResult.asInt();
+        }
         JsonNode response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("search", animeName)
@@ -28,17 +38,26 @@ public class ShikimoriAnimeService {
                 .bodyToMono(JsonNode.class)
                 .block();
         if (response != null && !response.isEmpty()) {
+            inMemoryMap.put(key, response.findValue("id"));
             return response.findValue("id").asInt();
         }
         return -1;
     }
-    public JsonNode getAnimeInfo(int animeId) {
+    public Anime getAnimeInfo(int animeId) {
         if(animeId == -1)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        return webClient.get()
+        String key = "SHIKIMORI ANIME " + animeId;
+        Anime cachedResult = (Anime) inMemoryMap.get(key);
+        if(cachedResult != null)
+            return cachedResult;
+        Anime anime = webClient.get()
                 .uri(uri -> uri.path("/"+animeId).build())
                 .retrieve()
-                .bodyToMono(JsonNode.class)
+                .bodyToMono(Anime.class)
                 .block();
+        if(anime == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        inMemoryMap.put(key, anime);
+        return anime;
     }
 }
