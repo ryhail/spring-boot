@@ -1,9 +1,7 @@
 package com.pnayavu.lab.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pnayavu.lab.entity.Anime;
+import com.pnayavu.lab.error.MyNotFoundException;
 import com.pnayavu.lab.service.AnimeService;
 import com.pnayavu.lab.service.implementations.ShikimoriAnimeService;
 import org.springframework.http.HttpStatus;
@@ -38,7 +36,7 @@ public class AnimeController {
             }
         }
         if (listAnime.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no anime found");
+            throw new MyNotFoundException(HttpStatus.NOT_FOUND, "Anime not found");
         return listAnime;
     }
     @GetMapping(value = "/shikimori", produces = "application/json")
@@ -60,7 +58,7 @@ public class AnimeController {
     public Anime getAnime(@PathVariable Long animeId) {
         Anime anime = animeService.findAnime(animeId);
         if(anime == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"no anime with such id");
+            throw new MyNotFoundException(HttpStatus.NOT_FOUND, "Anime not found");
         }
         return anime;
     }
