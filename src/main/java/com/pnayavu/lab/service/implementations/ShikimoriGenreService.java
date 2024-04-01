@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pnayavu.lab.entity.Genre;
+import com.pnayavu.lab.logging.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class ShikimoriGenreService {
                 .baseUrl("https://shikimori.one/api/genres")
                 .build();
     }
-
+    @Logged
     public List<Genre> getAllGenres(@Autowired ObjectMapper objectMapper) {
         JsonNode response  = webClient.get()
                     .retrieve()

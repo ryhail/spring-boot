@@ -1,5 +1,6 @@
 package com.pnayavu.lab.cache;
 
+import com.pnayavu.lab.logging.Logged;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
@@ -17,11 +18,11 @@ public class InMemoryMap {
             }
         };
     }
-
+    @Logged
     public void put(String key, Object value) {
         cache.put(key, value);
     }
-
+    @Logged
     public Object get(String key) {
         return cache.get(key);
     }

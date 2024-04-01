@@ -2,6 +2,7 @@ package com.pnayavu.lab.service.implementations;
 
 import com.pnayavu.lab.cache.InMemoryMap;
 import com.pnayavu.lab.entity.Anime;
+import com.pnayavu.lab.logging.Logged;
 import com.pnayavu.lab.repository.AnimeRepository;
 import com.pnayavu.lab.service.AnimeService;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class AnimeServiceImpl implements AnimeService {
     public List<Anime> findAllAnime() {
         return animeRepository.findAll();
     }
-
+    @Logged
     @Override
     public List<Anime> searchAnime(String name) {
         String key = "SEARCH ANIME " + name;
@@ -34,12 +35,12 @@ public class AnimeServiceImpl implements AnimeService {
         inMemoryMap.put(key, result);
         return result;
     }
-
+    @Logged
     @Override
     public Anime saveAnime(Anime anime) {
         return animeRepository.save(anime);
     }
-
+    @Logged
     @Override
     public Anime findAnime(Long id) {
         String key = ANIME_ID_KEY + id;
@@ -51,7 +52,7 @@ public class AnimeServiceImpl implements AnimeService {
         inMemoryMap.put(key,result);
         return result;
     }
-
+    @Logged
     @Override
     public Anime updateAnime(Anime anime) {
         String key = ANIME_ID_KEY + anime.getId();
@@ -61,7 +62,7 @@ public class AnimeServiceImpl implements AnimeService {
         }
         return animeRepository.save(anime);
     }
-
+    @Logged
     @Override
     public void deleteAnime(Long id) {
         String key = ANIME_ID_KEY + id;

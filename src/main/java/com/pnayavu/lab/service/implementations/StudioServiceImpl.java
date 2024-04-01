@@ -2,6 +2,7 @@ package com.pnayavu.lab.service.implementations;
 
 import com.pnayavu.lab.cache.InMemoryMap;
 import com.pnayavu.lab.entity.Studio;
+import com.pnayavu.lab.logging.Logged;
 import com.pnayavu.lab.repository.StudioRepository;
 import com.pnayavu.lab.service.StudioService;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class StudioServiceImpl implements StudioService {
     public List<Studio> getAllStudios() {
         return studioRepository.findAll();
     }
-
+    @Logged
     @Override
     public Studio getStudioById(Long id) {
         String key = STUDIO_ID_KEY + id;
@@ -37,11 +38,12 @@ public class StudioServiceImpl implements StudioService {
         inMemoryMap.put(key, result);
         return result;
     }
-
+    @Logged
     @Override
     public Studio createStudio(Studio studio) {
         return studioRepository.save(studio);
     }
+    @Logged
     @Override
     public Studio updateStudio(Studio studio) {
         String key = STUDIO_ID_KEY + studio.getId();
@@ -51,7 +53,7 @@ public class StudioServiceImpl implements StudioService {
         }
         return studioRepository.save(studio);
     }
-
+    @Logged
     @Override
     public void deleteStudioById(Long id) {
         String key = STUDIO_ID_KEY + id;

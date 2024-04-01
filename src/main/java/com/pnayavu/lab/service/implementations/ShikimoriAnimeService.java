@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.pnayavu.lab.cache.InMemoryMap;
 import com.pnayavu.lab.entity.Anime;
+import com.pnayavu.lab.logging.Logged;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -20,9 +21,9 @@ public class ShikimoriAnimeService {
                 .baseUrl("https://shikimori.one/api/animes")
                 .build();
     }
-
+    @Logged
     public int searchAnime(String animeName) {
-        String key = "SHIKIMORI ID " + animeName;
+        String key = "SHIKIMORI NAME " + animeName;
         IntNode cachedResult = (IntNode) inMemoryMap.get(key);
         if(cachedResult != null) {
             return cachedResult.asInt();
@@ -43,6 +44,7 @@ public class ShikimoriAnimeService {
         }
         return -1;
     }
+    @Logged
     public Anime getAnimeInfo(int animeId) {
         if(animeId == -1)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
