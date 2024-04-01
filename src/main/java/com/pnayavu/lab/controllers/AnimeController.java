@@ -38,7 +38,7 @@ public class AnimeController {
             }
         }
         if (listAnime.isEmpty())
-            throw new MyNotFoundException(HttpStatus.NOT_FOUND, "Anime not found");
+            throw new MyNotFoundException(HttpStatus.NOT_FOUND, "No animes found");
         return listAnime;
     }
     @Logged
@@ -47,14 +47,11 @@ public class AnimeController {
         Anime anime = shikimoriAnimeService.getAnimeInfo(
                 shikimoriAnimeService.searchAnime(animeName)
         );
-        if(anime == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found");
-        } else {
-            anime = animeService.saveAnime(anime);
-            if(anime == null)
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Anime not saved");
-            return "Added successfully anime " + anime.getName();
-        }
+        anime = animeService.saveAnime(anime);
+        if (anime == null)
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Anime not saved");
+        return "Added successfully anime " + anime.getName();
+
     }
     @Logged
     @GetMapping(value = "/{animeId}",produces = "application/json")

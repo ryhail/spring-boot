@@ -58,7 +58,7 @@ public class ShikimoriAnimeService {
                 .bodyToMono(Anime.class)
                 .block();
         if(anime == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime from Shikimori not found");
         inMemoryMap.put(key, anime);
         return anime;
     }

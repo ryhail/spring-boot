@@ -5,13 +5,9 @@ import com.pnayavu.lab.entity.Studio;
 import com.pnayavu.lab.logging.Logged;
 import com.pnayavu.lab.repository.StudioRepository;
 import com.pnayavu.lab.service.StudioService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudioServiceImpl implements StudioService {

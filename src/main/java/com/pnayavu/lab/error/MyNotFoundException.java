@@ -19,9 +19,6 @@ public class MyNotFoundException extends ResponseStatusException {
     public MyNotFoundException(HttpStatusCode status, String reason, Throwable cause) {
         super(status, reason, cause);
     }
-    public void setMessage(String message) {
-
-    }
     protected MyNotFoundException(HttpStatusCode status, String reason, Throwable cause, String messageDetailCode, Object[] messageDetailArguments) {
         super(status, reason, cause, messageDetailCode, messageDetailArguments);
     }

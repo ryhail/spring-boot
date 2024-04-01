@@ -7,7 +7,6 @@ import com.pnayavu.lab.service.GenreService;
 import com.pnayavu.lab.service.implementations.ShikimoriGenreService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 

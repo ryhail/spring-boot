@@ -5,7 +5,6 @@ import com.pnayavu.lab.entity.Genre;
 import com.pnayavu.lab.logging.Logged;
 import com.pnayavu.lab.repository.GenreRepository;
 import com.pnayavu.lab.service.GenreService;
-import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -4,10 +4,13 @@ package com.pnayavu.lab.error;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
-
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 
 @RestControllerAdvice
@@ -22,7 +25,7 @@ public class DefaultAdvice {
             image = imageStream.readAllBytes();
             imageStream.close();
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.IMAGE_JPEG).body(image);
     }

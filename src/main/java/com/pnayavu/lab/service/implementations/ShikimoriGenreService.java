@@ -35,7 +35,7 @@ public class ShikimoriGenreService {
                 try {
                     object = objectMapper.treeToValue(element, Genre.class);
                 } catch (JsonProcessingException e) {
-                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error processing genres from shikimori");
                 }
                 genreList.add(object);
             }
