@@ -18,13 +18,11 @@ public class DefaultAdvice {
     @ExceptionHandler(value = MyNotFoundException.class)
     public ResponseEntity<byte[]> handleExceptionNotFound(MyNotFoundException exception) {
         File img = new File("src/main/resources/images/404.jpg");
-        InputStream imageStream;
+
         byte[] image;
-        try {
-            imageStream = Files.newInputStream(img.toPath());
+        try(InputStream imageStream = Files.newInputStream(img.toPath())) {
             image = imageStream.readAllBytes();
-            imageStream.close();
-        } catch (IOException ex) {
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.IMAGE_JPEG).body(image);
