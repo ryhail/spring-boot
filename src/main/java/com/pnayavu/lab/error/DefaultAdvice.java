@@ -6,10 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
@@ -18,13 +16,13 @@ public class DefaultAdvice {
     @ExceptionHandler(value = MyNotFoundException.class)
     public ResponseEntity<byte[]> handleExceptionNotFound(MyNotFoundException exception) {
         File img = new File("src/main/resources/images/404.jpg");
-
         byte[] image;
         try(InputStream imageStream = Files.newInputStream(img.toPath())) {
             image = imageStream.readAllBytes();
+            imageStream.close();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.IMAGE_JPEG).body(image);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.IMAGE_JPEG).body(image);
     }
 }
