@@ -9,10 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "studios")
@@ -20,20 +19,21 @@ import java.util.Set;
 @Getter
 @Setter
 public class Studio {
-    @Id
-    @JsonProperty("id")
-    private Long id;
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("real")
-    private Boolean real;
-    @JsonProperty("image")
-    private String image;
-    @JsonIgnore
-    @OneToMany(mappedBy="studio")
-    private Set<Anime> animes;
-    @JsonSetter("image")
-    void setStudioImageJson(TextNode image) {
-        this.image = "https://shikimori.one"+image.asText();
-    }
+  @Id
+  @JsonProperty("id")
+  private Long id;
+  @JsonProperty("name")
+  private String name;
+  @JsonProperty("real")
+  private Boolean real;
+  @JsonProperty("image")
+  private String image;
+  @JsonIgnore
+  @OneToMany(mappedBy = "studio")
+  private Set<Anime> animes;
+
+  @JsonSetter("image")
+  void setStudioImageJson(TextNode image) {
+    this.image = "https://shikimori.one" + image.asText();
+  }
 }
