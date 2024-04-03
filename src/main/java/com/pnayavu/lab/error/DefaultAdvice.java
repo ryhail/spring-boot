@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestControllerAdvice
 public class DefaultAdvice {
@@ -18,7 +19,6 @@ public class DefaultAdvice {
     byte[] image;
     try (InputStream imageStream = Files.newInputStream(img.toPath())) {
       image = imageStream.readAllBytes();
-      imageStream.close();
       return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.IMAGE_JPEG)
           .body(image);
     } catch (Exception e) {
