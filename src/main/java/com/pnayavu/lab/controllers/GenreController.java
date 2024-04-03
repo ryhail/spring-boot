@@ -32,8 +32,8 @@ public class GenreController {
     }
     @GetMapping(value = "/shikimori")
     @Logged
-    public List<Genre> updateGenres(ObjectMapper objectMapper) {
-        List<Genre> genres = shikimoriGenreService.getAllGenres(objectMapper);
+    public List<Genre> updateGenres() {
+        List<Genre> genres = shikimoriGenreService.getAllGenres();
         if(genres.isEmpty()){
             throw new ResponseStatusException(HttpStatus.FAILED_DEPENDENCY, "Shikimori API could not be accessed");
         }

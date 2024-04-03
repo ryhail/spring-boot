@@ -16,14 +16,17 @@ import java.util.List;
 @Service
 public class ShikimoriGenreService {
     private final WebClient webClient;
-    public ShikimoriGenreService(){
+    private final ObjectMapper objectMapper;
+
+    public ShikimoriGenreService(ObjectMapper objectMapper){
         webClient = WebClient
                 .builder()
                 .baseUrl("https://shikimori.one/api/genres")
                 .build();
+        this.objectMapper = objectMapper;
     }
     @Logged
-    public List<Genre> getAllGenres(@Autowired ObjectMapper objectMapper) {
+    public List<Genre> getAllGenres() {
         JsonNode response  = webClient.get()
                     .retrieve()
                     .bodyToMono(JsonNode.class)
