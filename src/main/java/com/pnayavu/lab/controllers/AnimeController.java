@@ -75,6 +75,9 @@ public class AnimeController {
   @PostMapping(value = "")
   @ResponseStatus(HttpStatus.CREATED)
   public Anime addAnime(@RequestBody Anime anime) {
+    if (anime.getId() == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Set id parameter to 0");
+    }
     Anime savedAnime = animeService.saveAnime(anime);
     if (savedAnime == null) {
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Anime not saved");

@@ -41,8 +41,8 @@ public class StudioController {
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
   public Studio postStudio(@RequestBody Studio studio) {
-    if (Stream.of(studio).allMatch(null)) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cant resolve sent entity");
+    if (Stream.of(studio).anyMatch(null)) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not full information");
     }
     Studio savedStudio = studioService.createStudio(studio);
     if (savedStudio == null) {

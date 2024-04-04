@@ -64,6 +64,9 @@ public class GenreController {
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping(value = "")
   public Genre createGenre(@RequestBody Genre genre) {
+    if (genre.getId() == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Set genre id");
+    }
     if (Stream.of(genre).allMatch(null)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No genre provided");
     }
@@ -77,8 +80,8 @@ public class GenreController {
   @Logged
   @PutMapping(value = "")
   public Genre updateGenre(@RequestBody Genre genre) {
-    if (Stream.of(genre).allMatch(null)) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No genre provided");
+    if (Stream.of(genre).anyMatch(null)) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not full information");
     }
     Genre newGenre = genreService.updateGenre(genre);
     if (newGenre == null) {
