@@ -1,5 +1,6 @@
 package com.pnayavu.lab.service.implementations;
 
+import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -116,7 +117,7 @@ public class ShikimoriAnimeService {
         try {
           sleep(1000);
         } catch (InterruptedException ex) {
-          notify();
+          currentThread().interrupt();
         }
         animeList.add(getAnimeInfo(id));
       }
