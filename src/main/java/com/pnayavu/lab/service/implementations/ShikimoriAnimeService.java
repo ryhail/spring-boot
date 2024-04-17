@@ -61,7 +61,7 @@ public class ShikimoriAnimeService {
     try {
       Anime anime = webClient.get().uri(uri -> uri.path("/" + animeId).build()).retrieve()
           .bodyToMono(Anime.class).block();
-      cache.put(key, Optional.of(anime));
+      cache.put(key, Optional.ofNullable(anime));
       return anime;
     } catch (WebClientResponseException.NotFound e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No anime with such id");
@@ -115,9 +115,8 @@ public class ShikimoriAnimeService {
       } catch (WebClientResponseException.TooManyRequests e) {
         try {
           sleep(1000);
-          animeList.add(getAnimeInfo(id));
-        } catch (InterruptedException intExc) {
-          throw new RuntimeException(intExc);
+        } catch (InterruptedException ex) {
+          Thread.currentThread().interrupt();
         }
       }
     }
