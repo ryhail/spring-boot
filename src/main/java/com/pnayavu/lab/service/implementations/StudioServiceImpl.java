@@ -1,12 +1,15 @@
 package com.pnayavu.lab.service.implementations;
 
 import com.pnayavu.lab.cache.InMemoryMap;
-import com.pnayavu.lab.entity.Studio;
 import com.pnayavu.lab.logging.Logged;
+import com.pnayavu.lab.model.Studio;
 import com.pnayavu.lab.repository.StudioRepository;
 import com.pnayavu.lab.service.StudioService;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class StudioServiceImpl implements StudioService {
@@ -33,9 +36,13 @@ public class StudioServiceImpl implements StudioService {
     if (cachedResult != null) {
       return cachedResult;
     }
-    Studio result = studioRepository.findById(id).orElse(null);
-    inMemoryMap.put(key, result);
-    return result;
+    Optional<Studio> result = studioRepository.findById(id);
+    if(result.isPresent()) {
+      inMemoryMap.put(key, result);
+      return result.get();
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Studio with such id not found");
+    }
   }
 
   @Logged
@@ -50,7 +57,7 @@ public class StudioServiceImpl implements StudioService {
     String key = STUDIO_ID_KEY + studio.getId();
     if (inMemoryMap.containsKey(key)) {
       inMemoryMap.remove(key);
-      inMemoryMap.put(key, studio);
+      inMemoryMap.put(key, Optional.of(studio));
     }
     return studioRepository.save(studio);
   }
@@ -59,9 +66,13 @@ public class StudioServiceImpl implements StudioService {
   @Override
   public void deleteStudioById(Long id) {
     String key = STUDIO_ID_KEY + id;
-    if (inMemoryMap.containsKey(key)) {
-      inMemoryMap.remove(key);
+    if(studioRepository.existsById(id)) {
+      if (inMemoryMap.containsKey(key)) {
+        inMemoryMap.remove(key);
+      }
+      studioRepository.deleteById(id);
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Studio with such id not found");
     }
-    studioRepository.deleteById(id);
   }
 }

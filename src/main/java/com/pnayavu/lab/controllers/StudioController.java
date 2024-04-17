@@ -1,7 +1,7 @@
 package com.pnayavu.lab.controllers;
 
-import com.pnayavu.lab.entity.Studio;
 import com.pnayavu.lab.logging.Logged;
+import com.pnayavu.lab.model.Studio;
 import com.pnayavu.lab.service.StudioService;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
@@ -67,9 +67,6 @@ public class StudioController {
   @Logged
   @DeleteMapping("/{studioId}")
   public void deleteStudio(@PathVariable Long studioId) {
-    if (getStudioById(studioId) == null) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime with such id not found");
-    }
     try {
       studioService.deleteStudioById(studioId);
     } catch (DataIntegrityViolationException e) {

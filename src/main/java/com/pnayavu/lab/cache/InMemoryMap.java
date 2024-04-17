@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class InMemoryMap {
-  private static final int INIT_CAPACITY = 16;
+  private static final int INIT_CAPACITY = 50;
   private final Map<String, Object> cache;
 
   public InMemoryMap() {

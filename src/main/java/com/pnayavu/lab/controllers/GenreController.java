@@ -1,7 +1,7 @@
 package com.pnayavu.lab.controllers;
 
-import com.pnayavu.lab.entity.Genre;
 import com.pnayavu.lab.logging.Logged;
+import com.pnayavu.lab.model.Genre;
 import com.pnayavu.lab.service.GenreService;
 import com.pnayavu.lab.service.implementations.ShikimoriGenreService;
 import java.util.List;
@@ -93,13 +93,9 @@ public class GenreController {
   @Logged
   @DeleteMapping(value = "/{genreId}", produces = "application/json")
   public String deleteGenre(@PathVariable Long genreId) {
-    Genre genre = genreService.findGenre(genreId);
-    if (genre == null) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Genre not found");
-    }
     try {
       genreService.deleteGenre(genreId);
-      return "deleted genre " + genreId.toString();
+      return "Deleted genre " + genreId.toString();
     } catch (DataIntegrityViolationException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Has reference");
     }

@@ -1,6 +1,6 @@
 package com.pnayavu.lab.service;
 
-import com.pnayavu.lab.entity.Anime;
+import com.pnayavu.lab.model.Anime;
 import java.util.List;
 
 public interface AnimeService {
@@ -15,4 +15,5 @@ public interface AnimeService {
   Anime updateAnime(Anime anime);
 
   void deleteAnime(Long id);
+  List<Anime> bulkInsert(List<Anime> animeList);
 }

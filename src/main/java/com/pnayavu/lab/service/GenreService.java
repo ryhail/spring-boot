@@ -1,6 +1,6 @@
 package com.pnayavu.lab.service;
 
-import com.pnayavu.lab.entity.Genre;
+import com.pnayavu.lab.model.Genre;
 import java.util.List;
 
 public interface GenreService {

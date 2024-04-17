@@ -1,12 +1,15 @@
 package com.pnayavu.lab.service.implementations;
 
 import com.pnayavu.lab.cache.InMemoryMap;
-import com.pnayavu.lab.entity.Genre;
 import com.pnayavu.lab.logging.Logged;
+import com.pnayavu.lab.model.Genre;
 import com.pnayavu.lab.repository.GenreRepository;
 import com.pnayavu.lab.service.GenreService;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class GenreServiceImpl implements GenreService {
@@ -38,9 +41,13 @@ public class GenreServiceImpl implements GenreService {
     if (cachedResult != null) {
       return cachedResult;
     }
-    Genre result = genreRepository.findGenreById(id);
-    inMemoryMap.put(key, result);
-    return result;
+    Optional<Genre> result = genreRepository.findById(id);
+    if(result.isPresent()) {
+      inMemoryMap.put(key, result.get());
+      return result.get();
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Genre with such id not found");
+    }
   }
 
   @Logged
@@ -64,9 +71,13 @@ public class GenreServiceImpl implements GenreService {
   @Override
   public void deleteGenre(Long id) {
     String key = GENRE_ID_KEY + id;
-    if (inMemoryMap.containsKey(key)) {
-      inMemoryMap.remove(key);
+    if(genreRepository.existsById(id)) {
+      if (inMemoryMap.containsKey(key)) {
+        inMemoryMap.remove(key);
+      }
+      genreRepository.deleteById(id);
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Genre with such id not found");
     }
-    genreRepository.deleteById(id);
   }
 }

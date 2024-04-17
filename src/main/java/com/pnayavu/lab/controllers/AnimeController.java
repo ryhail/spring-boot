@@ -1,12 +1,13 @@
 package com.pnayavu.lab.controllers;
 
-import com.pnayavu.lab.entity.Anime;
 import com.pnayavu.lab.error.MyNotFoundException;
 import com.pnayavu.lab.logging.Logged;
+import com.pnayavu.lab.model.Anime;
 import com.pnayavu.lab.service.AnimeService;
 import com.pnayavu.lab.service.implementations.ShikimoriAnimeService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -101,10 +102,15 @@ public class AnimeController {
   @Logged
   @DeleteMapping(value = "/{animeId}", produces = "application/json")
   public String deleteAnime(@PathVariable Long animeId) {
-    if (animeService.findAnime(animeId) == null) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime with such id not found");
-    }
     animeService.deleteAnime(animeId);
     return "successfully deleted";
+  }
+  @Logged
+  @PostMapping(value = "/addAnimes", produces = MediaType.APPLICATION_JSON_VALUE)
+  public String addAnimesFromShikimoriWithParameters(@RequestBody Anime bulkParameters, @RequestParam(required = false) Integer page) {
+    List<Anime> animeList = shikimoriAnimeService.getAnimeFullInfo(
+        shikimoriAnimeService.getAnimeWithParameters(bulkParameters, page));
+    animeService.bulkInsert(animeList);
+    return "Saved new " + animeList.size() + " entities";
   }
 }

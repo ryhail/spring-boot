@@ -1,7 +1,7 @@
 package com.pnayavu.lab.service;
 
 
-import com.pnayavu.lab.entity.Studio;
+import com.pnayavu.lab.model.Studio;
 import java.util.List;
 
 public interface StudioService {

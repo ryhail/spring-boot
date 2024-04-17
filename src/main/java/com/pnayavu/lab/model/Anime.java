@@ -1,4 +1,4 @@
-package com.pnayavu.lab.entity;
+package com.pnayavu.lab.model;
 
 
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -9,8 +9,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -31,7 +29,6 @@ import lombok.Setter;
 public class Anime {
   @JsonProperty("id")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @JsonProperty("name")
   private String name;
@@ -65,6 +62,11 @@ public class Anime {
 
   @JsonSetter("studios")
   public void setStudioFromArray(Studio[] studios) {
+    if(studios.length == 0) {
+      this.studio = new Studio();
+      this.studio.setId(0L);
+      return;
+    }
     this.studio = studios[0];
   }
 

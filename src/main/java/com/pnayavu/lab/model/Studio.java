@@ -1,4 +1,4 @@
-package com.pnayavu.lab.entity;
+package com.pnayavu.lab.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
