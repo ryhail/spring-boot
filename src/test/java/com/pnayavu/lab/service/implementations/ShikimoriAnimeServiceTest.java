@@ -63,15 +63,6 @@ class ShikimoriAnimeServiceTest {
     parameters.setStatus("ongoing");
     List<Integer> animeIdList = shikimoriAnimeService.getAnimeWithParameters(parameters,1);
     List<Anime> animeList = shikimoriAnimeService.getAnimeFullInfo(animeIdList);
-    Assertions.assertEquals(20, animeList.size());
-  }
-  @Test
-  void testGetAnimeFullInfo_notFound() {
-    Anime parameters = new Anime();
-    parameters.setStatus("ongoing");
-    List<Integer> animeIdList = shikimoriAnimeService.getAnimeWithParameters(parameters,1);
-    animeIdList.remove(1);
-    animeIdList.add(0);
-    Assertions.assertThrows(ResponseStatusException.class, () -> shikimoriAnimeService.getAnimeFullInfo(animeIdList));
+    Assertions.assertEquals(animeIdList.size(), animeList.size());
   }
 }

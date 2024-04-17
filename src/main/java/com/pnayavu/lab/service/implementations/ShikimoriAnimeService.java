@@ -108,7 +108,7 @@ public class ShikimoriAnimeService {
     for (Integer id:
          animeId) {
       try {
-        if(cache.containsKey("ANIME ID" + id))
+        if(cache.containsKey("ANIME ID " + id))
           animeList.add((Anime)cache.get("ANIME ID "+id));
         else
           animeList.add(getAnimeInfo(id));
@@ -116,8 +116,9 @@ public class ShikimoriAnimeService {
         try {
           sleep(1000);
         } catch (InterruptedException ex) {
-          Thread.currentThread().interrupt();
+          notify();
         }
+        animeList.add(getAnimeInfo(id));
       }
     }
     return animeList;
