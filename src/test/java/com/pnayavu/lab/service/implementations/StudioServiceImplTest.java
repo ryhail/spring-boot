@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
-public class StudioServiceImplTest {
+class StudioServiceImplTest {
   @Mock
   private StudioRepository studioRepository;
   @Mock

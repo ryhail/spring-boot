@@ -42,7 +42,7 @@ public class AnimeServiceImpl implements AnimeService {
       inMemoryMap.put(key, result);
       return result.get();
     } else
-      return null;
+      return List.of();
   }
 
   @Logged

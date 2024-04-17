@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
-public class ShikimoriAnimeServiceTest {
+class ShikimoriAnimeServiceTest {
   @Mock
   private InMemoryMap cache;
   @InjectMocks

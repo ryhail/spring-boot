@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class ShikimoriAnimeService {
+  private static final String SEARCH = "search";
   private final WebClient webClient;
   private final InMemoryMap cache;
 
@@ -37,7 +38,7 @@ public class ShikimoriAnimeService {
       return cachedResult.asInt();
     }
     JsonNode response = webClient.get().uri(
-            uriBuilder -> uriBuilder.queryParam("search", animeName).queryParam("limit", 1)
+            uriBuilder -> uriBuilder.queryParam(SEARCH, animeName).queryParam("limit", 1)
                 .queryParam("order", "popularity").build()).retrieve().bodyToMono(JsonNode.class)
         .block();
     if (response != null && !response.isEmpty()) {
@@ -87,15 +88,15 @@ public class ShikimoriAnimeService {
                   .queryParamIfPresent("page", Optional.ofNullable(page))
                   .queryParamIfPresent("kind", Optional.ofNullable(parameters.getKind()))
                   .queryParamIfPresent("status", Optional.ofNullable(parameters.getStatus()))
-                  .queryParamIfPresent("search", Optional.ofNullable(parameters.getRussian()))
-                  .queryParamIfPresent("search", Optional.ofNullable(parameters.getName()))
+                  .queryParamIfPresent(SEARCH, Optional.ofNullable(parameters.getRussian()))
+                  .queryParamIfPresent(SEARCH, Optional.ofNullable(parameters.getName()))
                   .queryParamIfPresent("score", Optional.ofNullable(parameters.getScore()))
                   .queryParamIfPresent("studio", Optional.ofNullable(finalStudioId))
                   .queryParamIfPresent("genre", Optional.ofNullable(finalGenreId))
                   .build()).retrieve()
           .bodyToMono(JsonNode.class)
           .block();
-      return Stream.of(animes).flatMap(p -> p.findValues("id").stream().map(JsonNode::asInt)).collect(Collectors.toList());
+      return Stream.of(animes).flatMap(p -> p.findValues("id").stream().map(JsonNode::asInt)).toList();
     } catch(WebClientResponseException.UnprocessableEntity e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect parameters");
     }
@@ -103,7 +104,6 @@ public class ShikimoriAnimeService {
 
   @Logged
   public List<Anime> getAnimeFullInfo(List<Integer> animeId) {
-    Anime anime;
     List<Anime> animeList = new ArrayList<>();
     for (Integer id:
          animeId) {
@@ -116,7 +116,7 @@ public class ShikimoriAnimeService {
         try {
           sleep(1000);
           animeList.add(getAnimeInfo(id));
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException intExc) {
         }
       }
     }

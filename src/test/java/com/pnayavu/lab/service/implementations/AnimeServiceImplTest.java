@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
-public class AnimeServiceImplTest {
+class AnimeServiceImplTest {
   @InjectMocks
   private AnimeServiceImpl animeService;
   @Mock
@@ -73,7 +73,7 @@ public class AnimeServiceImplTest {
   @Test
   void testSearchAnime_doesntExist() {
     Mockito.when(animeRepository.searchAnimeByName("%test name%")).thenReturn(Optional.empty());
-    Assertions.assertNull(animeService.searchAnime("test name"));
+    Assertions.assertTrue(animeService.searchAnime("test name").isEmpty());
   }
 
   @Test

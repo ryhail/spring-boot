@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class InMemoryMapTest  {
+class InMemoryMapTest  {
   private InMemoryMap cache;
   private static final String key = "Test key";
   private static final String object = "Object";
