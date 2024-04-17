@@ -117,6 +117,7 @@ public class ShikimoriAnimeService {
           sleep(1000);
           animeList.add(getAnimeInfo(id));
         } catch (InterruptedException intExc) {
+          throw new RuntimeException(intExc);
         }
       }
     }
