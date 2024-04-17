@@ -15,6 +15,8 @@
 	<description>Lab1 </description>
 	<properties>
 		<java.version>17</java.version>
+		<sonar.organization>ryhail</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<repositories>
 		<repository>
