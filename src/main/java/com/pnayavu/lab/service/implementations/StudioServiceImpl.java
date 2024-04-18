@@ -37,7 +37,7 @@ public class StudioServiceImpl implements StudioService {
       return cachedResult;
     }
     Optional<Studio> result = studioRepository.findById(id);
-    if(result.isPresent()) {
+    if (result.isPresent()) {
       inMemoryMap.put(key, result);
       return result.get();
     } else {
@@ -66,7 +66,7 @@ public class StudioServiceImpl implements StudioService {
   @Override
   public void deleteStudioById(Long id) {
     String key = STUDIO_ID_KEY + id;
-    if(studioRepository.existsById(id)) {
+    if (studioRepository.existsById(id)) {
       if (inMemoryMap.containsKey(key)) {
         inMemoryMap.remove(key);
       }

@@ -52,7 +52,7 @@ public class ShikimoriAnimeService {
   @Logged
   public Anime getAnimeInfo(int animeId) {
     if (animeId == -1) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found on Shikimori");
     }
     String key = "ANIME ID" + animeId;
     Anime cachedResult = (Anime) cache.get(key);
@@ -73,11 +73,12 @@ public class ShikimoriAnimeService {
   public List<Integer> getAnimeWithParameters(Anime parameters, Integer page) {
     Long studioId = null;
     String genreId = null;
-    if(parameters.getStudio() != null) {
+    if (parameters.getStudio() != null) {
       studioId = parameters.getStudio().getId();
     }
-    if(parameters.getGenres() != null) {
-      genreId = parameters.getGenres().stream().map(Genre::getId).map(Object::toString).collect(Collectors.joining(", "));
+    if (parameters.getGenres() != null) {
+      genreId = parameters.getGenres().stream().map(Genre::getId).map(Object::toString)
+          .collect(Collectors.joining(", "));
     }
     Long finalStudioId = studioId;
     String finalGenreId = genreId;
@@ -97,8 +98,9 @@ public class ShikimoriAnimeService {
                   .build()).retrieve()
           .bodyToMono(JsonNode.class)
           .block();
-      return Stream.of(animes).flatMap(p -> p.findValues("id").stream().map(JsonNode::asInt)).toList();
-    } catch(WebClientResponseException.UnprocessableEntity e) {
+      return Stream.of(animes).flatMap(p -> p.findValues("id").stream().map(JsonNode::asInt))
+          .toList();
+    } catch (WebClientResponseException.UnprocessableEntity e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect parameters");
     }
   }
@@ -106,13 +108,14 @@ public class ShikimoriAnimeService {
   @Logged
   public List<Anime> getAnimeFullInfo(List<Integer> animeId) {
     List<Anime> animeList = new ArrayList<>();
-    for (Integer id:
-         animeId) {
+    for (Integer id :
+        animeId) {
       try {
-        if(cache.containsKey("ANIME ID " + id))
-          animeList.add((Anime)cache.get("ANIME ID "+id));
-        else
+        if (cache.containsKey("ANIME ID " + id)) {
+          animeList.add((Anime) cache.get("ANIME ID " + id));
+        } else {
           animeList.add(getAnimeInfo(id));
+        }
       } catch (WebClientResponseException.TooManyRequests e) {
         try {
           sleep(1000);

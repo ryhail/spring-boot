@@ -3,6 +3,7 @@ package com.pnayavu.lab.service.implementations;
 import com.pnayavu.lab.cache.InMemoryMap;
 import com.pnayavu.lab.model.Anime;
 import com.pnayavu.lab.repository.AnimeRepository;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,17 @@ class AnimeServiceImplTest {
   @Mock
   private InMemoryMap cache;
 
+  @Test
+  void testSave() {
+    Anime anime = new Anime();
+    anime.setName("Test name");
+    anime.setStatus("test");
+    anime.setScore(10.);
+    anime.setId(1L);
+    anime.setAiredOn(LocalDate.MAX);
+    Mockito.when(animeRepository.save(anime)).thenReturn(anime);
+    Assertions.assertEquals(anime, animeService.saveAnime(anime));
+  }
   @Test
   void testFindAnime_exists() {
     Anime anime = new Anime();
@@ -119,5 +131,28 @@ class AnimeServiceImplTest {
     Mockito.when(animeRepository.saveAll(animeList)).thenReturn(animeList);
     Assertions.assertThrows(ResponseStatusException.class, () -> animeService.bulkInsert(animeList),
         "Anime list was not saved");
+  }
+  @Test
+  void testUpdateAnime() {
+    Anime anime = new Anime();
+    anime.setName("Test name");
+    anime.setStatus("test");
+    anime.setScore(10.);
+    anime.setId(1L);
+    Mockito.when(animeRepository.save(anime)).thenReturn(anime);
+    Assertions.assertEquals(anime, animeService.updateAnime(anime));
+  }
+  @Test
+  void testUpdateAnime_inCache() {
+    Anime anime = new Anime();
+    anime.setName("Test name");
+    anime.setStatus("test");
+    anime.setScore(10.);
+    anime.setId(1L);
+    String key = "ANIME ID "+anime.getId();
+    Mockito.when(cache.containsKey(key)).thenReturn(true);
+    animeService.updateAnime(anime);
+    Mockito.verify(cache, Mockito.times(1)).remove(key);
+    Mockito.verify(cache, Mockito.times(1)).put(key, anime);
   }
 }

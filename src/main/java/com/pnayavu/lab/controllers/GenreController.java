@@ -5,7 +5,6 @@ import com.pnayavu.lab.model.Genre;
 import com.pnayavu.lab.service.GenreService;
 import com.pnayavu.lab.service.implementations.ShikimoriGenreService;
 import java.util.List;
-import java.util.stream.Stream;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,11 +52,7 @@ public class GenreController {
   @Logged
   @GetMapping(value = "/{genreId}")
   public Genre getGenreById(@PathVariable Long genreId) {
-    Genre genre = genreService.findGenre(genreId);
-    if (genre == null) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Genre with such id not found");
-    }
-    return genre;
+    return genreService.findGenre(genreId);
   }
 
   @Logged
@@ -66,9 +61,6 @@ public class GenreController {
   public Genre createGenre(@RequestBody Genre genre) {
     if (genre.getId() == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Set genre id");
-    }
-    if (Stream.of(genre).allMatch(null)) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No genre provided");
     }
     Genre newGenre = genreService.saveGenre(genre);
     if (newGenre == null) {
@@ -80,7 +72,7 @@ public class GenreController {
   @Logged
   @PutMapping(value = "")
   public Genre updateGenre(@RequestBody Genre genre) {
-    if (Stream.of(genre).anyMatch(null)) {
+    if (genre.getId() == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not full information");
     }
     Genre newGenre = genreService.updateGenre(genre);

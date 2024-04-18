@@ -3,7 +3,10 @@ package com.pnayavu.lab.service.implementations;
 import com.pnayavu.lab.cache.InMemoryMap;
 import com.pnayavu.lab.model.Studio;
 import com.pnayavu.lab.repository.StudioRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import net.bytebuddy.implementation.auxiliary.MethodCallProxy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,5 +76,13 @@ class StudioServiceImplTest {
   void testDeleteStudio_doesntExist() {
     Mockito.when(studioRepository.existsById(1L)).thenReturn(false);
     Assertions.assertThrows(ResponseStatusException.class, () -> studioService.deleteStudioById(1L));
+  }
+  @Test
+  void testGetAll() {
+    Studio studio = new Studio();
+    List<Studio> studioList = new ArrayList<>();
+    studioList.add(studio);
+    Mockito.when(studioRepository.findAll()).thenReturn(studioList);
+    Assertions.assertEquals(studioList, studioService.getAllStudios());
   }
 }

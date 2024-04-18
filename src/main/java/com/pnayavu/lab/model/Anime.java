@@ -51,8 +51,7 @@ public class Anime {
   private String image;
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JsonProperty("genres")
-  @JoinTable(name = "anime_genre",
-      joinColumns = @JoinColumn(name = "anime_id"),
+  @JoinTable(name = "anime_genre", joinColumns = @JoinColumn(name = "anime_id"),
       inverseJoinColumns = @JoinColumn(name = "genre_id"))
   private Set<Genre> genres;
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -62,7 +61,7 @@ public class Anime {
 
   @JsonSetter("studios")
   public void setStudioFromArray(Studio[] studios) {
-    if(studios.length == 0) {
+    if (studios.length == 0) {
       this.studio = new Studio();
       this.studio.setId(0L);
       return;

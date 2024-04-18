@@ -15,5 +15,6 @@ public interface AnimeService {
   Anime updateAnime(Anime anime);
 
   void deleteAnime(Long id);
+
   List<Anime> bulkInsert(List<Anime> animeList);
 }

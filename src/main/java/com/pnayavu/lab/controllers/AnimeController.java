@@ -77,7 +77,8 @@ public class AnimeController {
   @ResponseStatus(HttpStatus.CREATED)
   public Anime addAnime(@RequestBody Anime anime) {
     if (anime.getId() == null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Set id parameter to 0");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "Anime not correct or id not specified");
     }
     Anime savedAnime = animeService.saveAnime(anime);
     if (savedAnime == null) {
@@ -105,9 +106,11 @@ public class AnimeController {
     animeService.deleteAnime(animeId);
     return "successfully deleted";
   }
+
   @Logged
   @PostMapping(value = "/addAnimes", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String addAnimesFromShikimoriWithParameters(@RequestBody Anime bulkParameters, @RequestParam(required = false) Integer page) {
+  public String addAnimesFromShikimoriWithParameters(@RequestBody Anime bulkParameters,
+                                                     @RequestParam(required = false) Integer page) {
     List<Anime> animeList = shikimoriAnimeService.getAnimeFullInfo(
         shikimoriAnimeService.getAnimeWithParameters(bulkParameters, page));
     animeService.bulkInsert(animeList);

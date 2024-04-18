@@ -30,6 +30,14 @@ class GenreServiceImplTest {
     Mockito.when(genreRepository.findAll()).thenReturn(genres);
     Assertions.assertEquals(genres, genreService.findAllGenres());
   }
+  @Test
+  void testSaveGenre() {
+    Genre genre = new Genre();
+    genre.setId(1L);
+    genre.setName("Test name");
+    Mockito.when(genreRepository.save(genre)).thenReturn(genre);
+    Assertions.assertEquals(genre, genreService.saveGenre(genre));
+  }
 
   @Test
   void testFindGenre_exists() {

@@ -42,7 +42,7 @@ public class GenreServiceImpl implements GenreService {
       return cachedResult;
     }
     Optional<Genre> result = genreRepository.findById(id);
-    if(result.isPresent()) {
+    if (result.isPresent()) {
       inMemoryMap.put(key, result.get());
       return result.get();
     } else {
@@ -71,7 +71,7 @@ public class GenreServiceImpl implements GenreService {
   @Override
   public void deleteGenre(Long id) {
     String key = GENRE_ID_KEY + id;
-    if(genreRepository.existsById(id)) {
+    if (genreRepository.existsById(id)) {
       if (inMemoryMap.containsKey(key)) {
         inMemoryMap.remove(key);
       }

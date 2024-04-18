@@ -4,7 +4,6 @@ import com.pnayavu.lab.logging.Logged;
 import com.pnayavu.lab.model.Studio;
 import com.pnayavu.lab.service.StudioService;
 import java.util.NoSuchElementException;
-import java.util.stream.Stream;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +40,7 @@ public class StudioController {
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
   public Studio postStudio(@RequestBody Studio studio) {
-    if (Stream.of(studio).anyMatch(null)) {
+    if (studio.getId() == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not full information");
     }
     Studio savedStudio = studioService.createStudio(studio);
@@ -66,9 +65,10 @@ public class StudioController {
 
   @Logged
   @DeleteMapping("/{studioId}")
-  public void deleteStudio(@PathVariable Long studioId) {
+  public String deleteStudio(@PathVariable Long studioId) {
     try {
       studioService.deleteStudioById(studioId);
+      return "Deleted studio with id " + studioId;
     } catch (DataIntegrityViolationException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           "Cannot delete because has reference");

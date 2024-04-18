@@ -16,11 +16,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class AnimeServiceImpl implements AnimeService {
   private static final String ANIME_ID_KEY = "ANIME ID ";
   private final AnimeRepository animeRepository;
-  private final InMemoryMap inMemoryMap;
+  private final InMemoryMap cache;
 
   public AnimeServiceImpl(AnimeRepository animeRepository, InMemoryMap inMemoryMap) {
     this.animeRepository = animeRepository;
-    this.inMemoryMap = inMemoryMap;
+    this.cache = inMemoryMap;
   }
 
   @Override
@@ -32,17 +32,18 @@ public class AnimeServiceImpl implements AnimeService {
   @Override
   public List<Anime> searchAnime(String name) {
     String key = "ANIME NAME " + name;
-    List<Anime> cachedResult = (List<Anime>) inMemoryMap.get(key);
+    List<Anime> cachedResult = (List<Anime>) cache.get(key);
     if (cachedResult != null) {
       return cachedResult;
     }
     name = '%' + name + '%';
     Optional<List<Anime>> result = animeRepository.searchAnimeByName(name);
-    if(result.isPresent()) {
-      inMemoryMap.put(key, result);
+    if (result.isPresent()) {
+      cache.put(key, result);
       return result.get();
-    } else
+    } else {
       return List.of();
+    }
   }
 
   @Logged
@@ -55,13 +56,13 @@ public class AnimeServiceImpl implements AnimeService {
   @Override
   public Anime findAnime(Long id) {
     String key = ANIME_ID_KEY + id;
-    Anime cachedResult = (Anime) inMemoryMap.get(key);
+    Anime cachedResult = (Anime) cache.get(key);
     if (cachedResult != null) {
       return cachedResult;
     }
     Optional<Anime> result = animeRepository.findById(id);
-    if(result.isPresent()) {
-      inMemoryMap.put(key, result.get());
+    if (result.isPresent()) {
+      cache.put(key, result.get());
       return result.get();
     } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No anime with such id");
@@ -72,9 +73,9 @@ public class AnimeServiceImpl implements AnimeService {
   @Override
   public Anime updateAnime(Anime anime) {
     String key = ANIME_ID_KEY + anime.getId();
-    if (inMemoryMap.containsKey(key)) {
-      inMemoryMap.remove(key);
-      inMemoryMap.put(key, anime);
+    if (cache.containsKey(key)) {
+      cache.remove(key);
+      cache.put(key, anime);
     }
     return animeRepository.save(anime);
   }
@@ -82,11 +83,11 @@ public class AnimeServiceImpl implements AnimeService {
   @Logged
   @Override
   public void deleteAnime(Long id) {
-    if(animeRepository.existsById(id)) {
+    if (animeRepository.existsById(id)) {
       String key = ANIME_ID_KEY + id;
       animeRepository.deleteById(id);
-      if (inMemoryMap.containsKey(key)) {
-        inMemoryMap.remove(key);
+      if (cache.containsKey(key)) {
+        cache.remove(key);
       }
     } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime with such id not found");
@@ -97,9 +98,11 @@ public class AnimeServiceImpl implements AnimeService {
   @Transactional
   public List<Anime> bulkInsert(List<Anime> animeList) {
     animeList = animeRepository.saveAll(animeList);
-    if(animeList.isEmpty())
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Anime list was not saved");
-    else
+    if (animeList.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+          "Anime list was not saved");
+    } else {
       return animeList;
+    }
   }
 }
