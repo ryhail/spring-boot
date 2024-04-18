@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
-public class StudioControllerTest {
+class StudioControllerTest {
   @InjectMocks
   private StudioController studioController;
   @Mock

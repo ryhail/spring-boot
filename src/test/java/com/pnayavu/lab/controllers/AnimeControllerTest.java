@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
-public class AnimeControllerTest {
+class AnimeControllerTest {
   @Mock
   private AnimeServiceImpl animeService;
   @Mock
