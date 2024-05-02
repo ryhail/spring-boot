@@ -38,7 +38,7 @@ public class StudioServiceImpl implements StudioService {
     }
     Optional<Studio> result = studioRepository.findById(id);
     if (result.isPresent()) {
-      inMemoryMap.put(key, result);
+      inMemoryMap.put(key, result.get());
       return result.get();
     } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Studio with such id not found");
