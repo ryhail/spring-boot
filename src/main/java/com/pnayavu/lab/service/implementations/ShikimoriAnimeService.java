@@ -54,7 +54,7 @@ public class ShikimoriAnimeService {
     if (animeId == -1) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found on Shikimori");
     }
-    String key = "ANIME ID" + animeId;
+    String key = "ANIME ID " + animeId;
     Anime cachedResult = (Anime) cache.get(key);
     if (cachedResult != null) {
       return cachedResult;
@@ -62,7 +62,7 @@ public class ShikimoriAnimeService {
     try {
       Anime anime = webClient.get().uri(uri -> uri.path("/" + animeId).build()).retrieve()
           .bodyToMono(Anime.class).block();
-      cache.put(key, Optional.ofNullable(anime));
+      cache.put(key, anime);
       return anime;
     } catch (WebClientResponseException.NotFound e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No anime with such id");
