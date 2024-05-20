@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -75,11 +75,16 @@ public class Anime {
   }
 
   @JsonSetter("image")
-  public void setImage(ObjectNode image) {
-    this.image = "https://shikimori.one" + image.get("original").asText();
+  public void setImage(JsonNode imageNode) {
+    JsonNode value = imageNode.get("original");
+    if(value == null) {
+      this.image = imageNode.asText();
+    } else {
+      this.image = "https://shikimori.one" + imageNode.get("original").asText();
+    }
   }
-  @JsonSetter("image")
-  public void setImage(String image) {
-    this.image = image;
-  }
+//  @JsonSetter("image")
+//  public void setImage(String image) {
+//    this.image = image;
+//  }
 }
