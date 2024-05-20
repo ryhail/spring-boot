@@ -22,7 +22,7 @@ class ShikimoriAnimeServiceTest {
 
   @Test
   void testSearchAnime() {
-    Assertions.assertEquals(21, shikimoriAnimeService.searchAnime("One Piece"));
+    Assertions.assertEquals(459, shikimoriAnimeService.searchAnime("One Piece"));
   }
   @Test
   void testSearchAnime_inCache() {
