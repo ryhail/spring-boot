@@ -33,7 +33,7 @@ function ShowOne({ id }) {
     };
 
     const handleClickDelete = () => {
-        axios.delete(`anime/` + object.id)
+        axios.delete(`https://manyame.up.railway.app/anime/` + object.id)
             .then(response => setObject(response.data))
             .catch(error => console.error('Error deleting the anime:', error));
         navigate("/animes");
