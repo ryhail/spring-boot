@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${PROD_DP_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
+    name: spring-manyame
+  gson:
+    date-format: "YYYY-MM-DD"
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          batch_size: 50
+        order_updates: true
+        order_inserts: true
+        generate_statistics: false
+  profiles:
+    active: prod
+
+server:
+  error:
+    include-message: always
+
+logging:
+  file:
+    name: app.log
+  pattern:
+    dateformat: yyyy-MM-DD'T'HH:mm:ss.SSS

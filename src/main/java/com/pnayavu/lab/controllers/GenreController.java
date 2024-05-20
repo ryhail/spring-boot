@@ -7,6 +7,7 @@ import com.pnayavu.lab.service.implementations.ShikimoriGenreService;
 import java.util.List;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/genre")
+@CrossOrigin
 public class GenreController {
   private final GenreService genreService;
   private final ShikimoriGenreService shikimoriGenreService;

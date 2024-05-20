@@ -78,4 +78,8 @@ public class Anime {
   public void setImage(ObjectNode image) {
     this.image = "https://shikimori.one" + image.get("original").asText();
   }
+  @JsonSetter("image")
+  public void setImage(String image) {
+    this.image = image;
+  }
 }

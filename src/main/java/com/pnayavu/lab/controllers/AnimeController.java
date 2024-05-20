@@ -8,6 +8,7 @@ import com.pnayavu.lab.service.implementations.ShikimoriAnimeService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/anime")
+@CrossOrigin
 public class AnimeController {
   private final AnimeService animeService;
   private final ShikimoriAnimeService shikimoriAnimeService;
