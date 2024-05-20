@@ -15,8 +15,6 @@ spring:
         order_updates: true
         order_inserts: true
         generate_statistics: false
-  profiles:
-    active: prod
 
 server:
   error:
