@@ -6,7 +6,7 @@ name: React CI script
 on:
   push:
     paths:
-      -'./front/**'
+      -'front/**'
 
 jobs:
   build:
