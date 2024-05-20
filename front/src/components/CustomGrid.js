@@ -15,7 +15,7 @@ const Img = styled('img')({
 
 export default function CustomGrid(endpoint) {
     const [objects, setObjects] = React.useState(null);
-    let url = 'http://localhost:8080/anime';
+    let url = 'https://manyame.up.railway.app/anime';
     React.useEffect(() => {
         axios.get(url).then((response) => {
             setObjects(response.data);

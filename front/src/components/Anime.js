@@ -33,7 +33,7 @@ function ShowOne({ id }) {
     };
 
     const handleClickDelete = () => {
-        axios.delete(`http://localhost:8080/anime/` + object.id)
+        axios.delete(`anime/` + object.id)
             .then(response => setObject(response.data))
             .catch(error => console.error('Error deleting the anime:', error));
         navigate("/animes");
@@ -52,7 +52,7 @@ function ShowOne({ id }) {
         setOpen(false);
         console.log('Edited Anime being sent:', editedAnime);
 
-        axios.put(`http://localhost:8080/anime`, editedAnime, {
+        axios.put(`https://manyame.up.railway.app/anime`, editedAnime, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -67,7 +67,7 @@ function ShowOne({ id }) {
     };
 
     React.useEffect(() => {
-        axios.get(`http://localhost:8080/anime/${id}`).then((response) => {
+        axios.get(`https://manyame.up.railway.app/anime/${id}`).then((response) => {
             setObject(response.data);
             setEditedAnime(response.data);
         });
